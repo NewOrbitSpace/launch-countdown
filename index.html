@@ -1,36 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Launch Countdown</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEO Rideshare — Launch Countdown</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="countdown-container">
-    <h1 id="title"></h1>
-    <p id="subtitle" class="subtitle"></p>
-    <div class="countdown" id="countdown" role="timer" aria-live="polite">
-      <div class="unit">
-        <span class="value" id="days">--</span>
-        <span class="label">Days</span>
+  <div id="stage">
+
+    <!-- ============ Design 1a — Mission control ============ -->
+    <section class="design d1a active" data-design="1a">
+      <header class="topbar">
+        <img class="logo" src="assets/logo-wordmark-white.png" alt="NewOrbit">
+        <span class="mono topbar-label">NEO RIDESHARE</span>
+      </header>
+      <div class="center">
+        <div class="mono eyebrow-red">T-MINUS TO LAUNCH</div>
+        <div class="clock hide-on-launch">
+          <div class="unit"><span class="value mono v-days">---</span><span class="unit-label mono">DAYS</span></div>
+          <span class="colon mono">:</span>
+          <div class="unit"><span class="value mono v-hours">--</span><span class="unit-label mono">HOURS</span></div>
+          <span class="colon mono">:</span>
+          <div class="unit"><span class="value mono v-min">--</span><span class="unit-label mono">MINUTES</span></div>
+          <span class="colon mono">:</span>
+          <div class="unit"><span class="value mono v-sec">--</span><span class="unit-label mono">SECONDS</span></div>
+        </div>
+        <div class="launched-msg"></div>
+        <div class="clock-sub js-launchline"></div>
       </div>
-      <div class="unit">
-        <span class="value" id="hours">--</span>
-        <span class="label">Hours</span>
+      <footer class="strip" data-milestones="strip"></footer>
+    </section>
+
+    <!-- ============ Design 1c — Split ============ -->
+    <section class="design d1c" data-design="1c">
+      <div class="left">
+        <img class="logo" src="assets/logo-wordmark-white.png" alt="NewOrbit">
+        <div class="big-block hide-on-launch">
+          <div class="mono days-label">DAYS TO LAUNCH</div>
+          <div class="giant v-days">---</div>
+        </div>
+        <div class="launched-msg"></div>
+        <div class="bottomline hide-on-launch">
+          <span class="mono hms"><span class="v-hours">--</span>:<span class="v-min">--</span>:<span class="v-sec">--</span></span>
+          <span class="launchline js-launchline"></span>
+        </div>
       </div>
-      <div class="unit">
-        <span class="value" id="minutes">--</span>
-        <span class="label">Minutes</span>
+      <aside class="ledger">
+        <div class="mono ledger-head">MISSION MILESTONES</div>
+        <div class="ledger-body" data-milestones="ledger"></div>
+      </aside>
+    </section>
+
+    <!-- ============ Design 1d — Trajectory ============ -->
+    <section class="design d1d" data-design="1d">
+      <header class="topbar noborder">
+        <img class="logo" src="assets/logo-wordmark-white.png" alt="NewOrbit">
+        <span class="mono topbar-label">NEO RIDESHARE</span>
+      </header>
+      <div class="d-center">
+        <div class="mono eyebrow-quiet">T-MINUS</div>
+        <div class="d-clock mono hide-on-launch">
+          <span class="d-value v-days">---</span><span class="d-unit">D</span><span class="d-value"><span class="v-hours">--</span>:<span class="v-min">--</span>:<span class="v-sec">--</span></span>
+        </div>
+        <div class="launched-msg"></div>
+        <div class="clock-sub js-launchsub"></div>
       </div>
-      <div class="unit">
-        <span class="value" id="seconds">--</span>
-        <span class="label">Seconds</span>
+      <div class="trajectory">
+        <div class="traj-base"></div>
+        <div class="traj-progress js-progress"></div>
+        <div class="traj-nodes" data-milestones="trajectory"></div>
       </div>
-    </div>
-    <p id="launched-message" class="launched-message" hidden></p>
-    <p class="target-date" id="target-date"></p>
-  </main>
+    </section>
+
+    <!-- ============ Design 1e — Minimal ============ -->
+    <section class="design d1e" data-design="1e">
+      <img class="logo corner-logo" src="assets/logo-wordmark-white.png" alt="NewOrbit">
+      <div class="e-center">
+        <div class="e-lead js-launchlead"></div>
+        <div class="e-number hide-on-launch">
+          <span class="giant v-days">---</span>
+          <span class="e-days">days</span>
+        </div>
+        <div class="launched-msg"></div>
+        <div class="mono e-sub hide-on-launch"><span class="v-hours">--</span>:<span class="v-min">--</span>:<span class="v-sec">--</span> · <span class="js-datecaps"></span></div>
+      </div>
+      <footer class="e-footer" data-milestones="chips"></footer>
+    </section>
+
+    <!-- ============ Design 1g — Rail ============ -->
+    <section class="design d1g" data-design="1g">
+      <aside class="rail">
+        <img class="logo" src="assets/logo-wordmark-white.png" alt="NewOrbit">
+        <div class="mono rail-head">ROAD TO LAUNCH</div>
+        <div class="rail-body" data-milestones="rail"></div>
+      </aside>
+      <div class="g-stage">
+        <div class="mono eyebrow-quiet">T-MINUS</div>
+        <div class="g-number hide-on-launch">
+          <span class="giant v-days">---</span>
+          <span class="g-days">days</span>
+        </div>
+        <div class="launched-msg"></div>
+        <div class="mono g-hms hide-on-launch"><span class="v-hours">--</span>:<span class="v-min">--</span>:<span class="v-sec">--</span></div>
+        <div class="clock-sub js-launchline"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ── DESIGN SWITCHER — temporary. Delete this nav (and the switcher
+       section at the bottom of script.js) once one design is chosen. ── -->
+  <nav id="design-switcher" aria-label="Design switcher"></nav>
+
   <script src="config.js"></script>
   <script src="script.js"></script>
 </body>
