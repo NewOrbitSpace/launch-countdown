@@ -1,0 +1,73 @@
+/* Bare-bones styling — intentionally plain.
+   Visual design to be replaced via Claude Design + NewOrbit Design System. */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #111;
+  color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.countdown-container {
+  padding: 2rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 6vw, 5rem);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  opacity: 0.6;
+  margin-bottom: 2rem;
+}
+
+.countdown {
+  display: flex;
+  gap: clamp(1rem, 4vw, 3rem);
+  justify-content: center;
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+}
+
+.value {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.label {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: clamp(0.7rem, 1.5vw, 1rem);
+  opacity: 0.6;
+}
+
+.launched-message {
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 700;
+}
+
+.target-date {
+  margin-top: 2rem;
+  opacity: 0.4;
+  font-size: 0.9rem;
+}
