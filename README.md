@@ -8,7 +8,7 @@ A static countdown page for the NEO Rideshare launch — for laptops, the lobby 
 - `config.js` — **edit this** to set the mission events and launch date
 - `style.css` / `script.js` — styling and countdown logic
 - `assets/`, `fonts/` — logo and Aeonik Pro fonts used by the site
-- `design/` — the original Claude Design exploration (`Countdown Dashboard Options.dc.html` plus its runtime, design-system bundle, and brand assets). Reference only; not part of the deployed site.
+- `design/` — git-ignored, local-only: the original Claude Design exploration (`Countdown Dashboard Options.dc.html` plus its runtime, design-system bundle, and brand renders). Kept out of the public repo deliberately.
 
 ## Picking a design
 
