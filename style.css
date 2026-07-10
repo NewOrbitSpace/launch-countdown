@@ -53,7 +53,9 @@ html, body {
   font-feature-settings: "tnum" 1;
 }
 
-.logo { height: 18px; width: auto; align-self: flex-start; display: block; }
+.logo { height: 18px; width: auto; display: block; }
+/* In column-flex layouts, stop align-items:stretch from distorting the logo */
+.d1c .left .logo, .d1g .rail .logo { align-self: flex-start; }
 
 /* ---------- Stage (1920x1080, scaled by script.js) ---------- */
 #stage {
