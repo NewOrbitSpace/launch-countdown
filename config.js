@@ -10,6 +10,8 @@ const LAUNCH_CONFIG = {
     { code: "SRR", name: "System Requirements Review", date: "2026-07-13T12:00:00" },
     { code: "PDR", name: "Preliminary Design Review", date: "2026-09-20T12:00:00" },
     { code: "CDR", name: "Critical Design Review", date: "2027-01-12T12:00:00" },
-    { code: "LAUNCH", name: "NEO Rideshare Launch", date: "2028-07-01T12:00:00", isLaunch: true },
+    // Launch day not decided yet — precision: "month" hides the day everywhere
+    // it's displayed (the clock still counts down to the date below).
+    { code: "LAUNCH", name: "NEO Rideshare Launch", date: "2028-07-01T12:00:00", isLaunch: true, precision: "month" },
   ],
 };

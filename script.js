@@ -13,15 +13,17 @@
   });
   const launch = events[events.length - 1];
   const start = events[0].t;
-  const launchLong = new Date(launch.date).toLocaleDateString("en-US", {
-    month: "long", day: "numeric", year: "numeric",
-  });
+  const launchLong = new Date(launch.date).toLocaleDateString("en-US",
+    launch.precision === "month"
+      ? { month: "long", year: "numeric" }
+      : { month: "long", day: "numeric", year: "numeric" });
 
   function qa(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); }
   function pad(n) { return String(n).padStart(2, "0"); }
-  function fmtShort(iso) {
-    const d = new Date(iso);
-    return pad(d.getDate()) + " " + MONTHS[d.getMonth()] + " " + d.getFullYear();
+  function fmtShort(ev) {
+    const d = new Date(ev.date);
+    const my = MONTHS[d.getMonth()] + " " + d.getFullYear();
+    return ev.precision === "month" ? my : pad(d.getDate()) + " " + my;
   }
 
   // ---------- Static copy fills ----------
@@ -47,12 +49,12 @@
       return '<div class="m-cell ' + st.cls + '">' +
         '<div class="m-row"><span class="dot"></span><span class="m-code mono">' + ev.code + '</span><span class="m-delta mono">' + st.delta + '</span></div>' +
         '<div class="m-name">' + ev.name + '</div>' +
-        '<div class="m-date mono">' + fmtShort(ev.date) + '</div></div>';
+        '<div class="m-date mono">' + fmtShort(ev) + '</div></div>';
     },
     ledger: function (ev, st) {
       return '<div class="m-lrow ' + st.cls + '"><span class="dot"></span>' +
         '<div class="m-lmain"><span class="m-ltitle">' + ev.code + ' — ' + ev.name + '</span>' +
-        '<span class="m-date mono">' + fmtShort(ev.date) + '</span></div>' +
+        '<span class="m-date mono">' + fmtShort(ev) + '</span></div>' +
         '<span class="m-delta mono">' + st.delta + '</span></div>';
     },
     trajectory: function (ev, st, i) {
@@ -62,7 +64,7 @@
         '<span class="dot dot-lg"></span>' +
         '<span class="m-code mono">' + ev.code + '</span>' +
         '<span class="m-name">' + ev.name + '</span>' +
-        '<span class="m-date mono">' + fmtShort(ev.date) + '</span></div>';
+        '<span class="m-date mono">' + fmtShort(ev) + '</span></div>';
     },
     chips: function (ev, st) {
       return '<div class="m-chip ' + st.cls + '">' +
@@ -74,7 +76,7 @@
         '<div class="m-rmain"><div class="m-rhead"><span class="m-rcode">' + ev.code + '</span>' +
         '<span class="m-delta mono">' + st.delta + '</span></div>' +
         '<span class="m-rname">' + ev.name + '</span>' +
-        '<span class="m-date mono">' + fmtShort(ev.date) + '</span></div></div>' +
+        '<span class="m-date mono">' + fmtShort(ev) + '</span></div></div>' +
         (ev.last ? '' : '<div class="stem"></div>') + '</div>';
     },
   };
