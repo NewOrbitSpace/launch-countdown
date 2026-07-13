@@ -16,4 +16,22 @@ const LAUNCH_CONFIG = {
     // it's displayed (the clock still counts down to the date below).
     { code: "LAUNCH", name: "NEO Rideshare Launch", date: "2028-07-01T12:00:00", isLaunch: true, precision: "month" },
   ],
+  // Working-time countdown: counts only startHour-endHour on weekdays,
+  // excluding the holidays below (UK bank holidays, England & Wales).
+  // Frozen outside those hours. Add rows here as future years are announced.
+  workingTime: {
+    startHour: 9,
+    endHour: 18,
+    holidays: [
+      // 2026
+      "2026-01-01", "2026-04-03", "2026-04-06", "2026-05-04",
+      "2026-05-25", "2026-08-31", "2026-12-25", "2026-12-28",
+      // 2027
+      "2027-01-01", "2027-03-26", "2027-03-29", "2027-05-03",
+      "2027-05-31", "2027-08-30", "2027-12-27", "2027-12-28",
+      // 2028
+      "2028-01-03", "2028-04-14", "2028-04-17", "2028-05-01",
+      "2028-05-29", "2028-08-28", "2028-12-25", "2028-12-26",
+    ],
+  },
 };

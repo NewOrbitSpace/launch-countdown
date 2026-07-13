@@ -90,6 +90,50 @@
     });
   }
 
+  // ---------- Working-time countdown ----------
+  // Counts only wt.startHour-wt.endHour on weekdays, excluding cfg holidays;
+  // outside those windows the remaining total doesn't change, so it freezes.
+  const wt = cfg.workingTime;
+  const workBoxes = qa(".workclock");
+  const workEls = qa(".js-workclock");
+  const holidaySet = {};
+  (wt ? wt.holidays : []).forEach(function (d) { holidaySet[d] = true; });
+
+  function isWorkday(d) {
+    const dow = d.getDay();
+    return dow !== 0 && dow !== 6 &&
+      !holidaySet[d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate())];
+  }
+
+  // Overlap of [a, b) with the working windows, in ms (local time).
+  function workingMsBetween(a, b) {
+    let total = 0;
+    const day = new Date(a);
+    day.setHours(0, 0, 0, 0);
+    while (day.getTime() < b) {
+      if (isWorkday(day)) {
+        const lo = Math.max(a, day.getTime() + wt.startHour * 3600000);
+        const hi = Math.min(b, day.getTime() + wt.endHour * 3600000);
+        if (hi > lo) total += hi - lo;
+      }
+      day.setDate(day.getDate() + 1);
+    }
+    return total;
+  }
+
+  function tickWorkclock(now) {
+    if (!wt || !workEls.length) return;
+    const rem = Math.floor(workingMsBetween(now, launch.t) / 1000);
+    const dayLen = (wt.endHour - wt.startHour) * 3600; // seconds per working day
+    const inDay = rem % dayLen;
+    const text = Math.floor(rem / dayLen) + " WD " +
+      pad(Math.floor(inDay / 3600)) + ":" + pad(Math.floor((inDay % 3600) / 60)) + ":" + pad(inDay % 60);
+    setAll(workEls, text);
+    const d = new Date(now);
+    const frozen = !(isWorkday(d) && d.getHours() >= wt.startHour && d.getHours() < wt.endHour);
+    workBoxes.forEach(function (el) { el.classList.toggle("frozen", frozen); });
+  }
+
   // ---------- Countdown ----------
   const els = {
     d: qa(".v-days"), h: qa(".v-hours"), m: qa(".v-min"), s: qa(".v-sec"),
@@ -110,6 +154,8 @@
 
     const pct = Math.min(100, Math.max(0, ((now - start) / (launch.t - start)) * 100));
     progressEls.forEach(function (el) { el.style.width = pct.toFixed(3) + "%"; });
+
+    tickWorkclock(now);
 
     // Rebuild milestone lists only when an event flips to complete
     const key = events.map(function (e) { return e.t <= now ? "1" : "0"; }).join("");
