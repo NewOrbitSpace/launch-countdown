@@ -127,38 +127,4 @@
   }
   fit();
   window.addEventListener("resize", fit);
-
-  /* ── DESIGN SWITCHER — temporary. Delete from here to the end (and the
-     <nav id="design-switcher"> in index.html) once one design is chosen.
-     Also supports ?design=1a..1g in the URL; choice persists locally. ── */
-  const DESIGNS = ["1a", "1c", "1d", "1e", "1g"];
-  const sw = document.getElementById("design-switcher");
-
-  function setDesign(id) {
-    qa(".design").forEach(function (el) {
-      el.classList.toggle("active", el.getAttribute("data-design") === id);
-    });
-    if (sw) {
-      qa("#design-switcher button").forEach(function (b) {
-        b.classList.toggle("active", b.getAttribute("data-design") === id);
-      });
-    }
-    try { localStorage.setItem("countdown-design", id); } catch (e) { /* private mode */ }
-  }
-
-  if (sw) {
-    DESIGNS.forEach(function (id) {
-      const b = document.createElement("button");
-      b.textContent = id;
-      b.setAttribute("data-design", id);
-      b.addEventListener("click", function () { setDesign(id); });
-      sw.appendChild(b);
-    });
-  }
-
-  let initial = new URLSearchParams(window.location.search).get("design");
-  if (!initial) { try { initial = localStorage.getItem("countdown-design"); } catch (e) { /* */ } }
-  if (DESIGNS.indexOf(initial) === -1) initial = DESIGNS[0];
-  setDesign(initial);
-  /* ── end DESIGN SWITCHER ── */
 })();
