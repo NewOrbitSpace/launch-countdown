@@ -95,6 +95,25 @@ html, body {
 .eyebrow-quiet { font-size: 16px; letter-spacing: 0.18em; color: var(--ink-400); }
 .clock-sub { font-size: 20px; color: var(--ink-300); }
 
+/* Working-time countdown (9-18 weekdays, minus UK bank holidays) */
+.workclock {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+}
+.workclock .wc-label { color: var(--ink-400); font-size: 13px; letter-spacing: 0.14em; }
+.workclock .wc-value { color: var(--ink-300); font-feature-settings: "tnum" 1; }
+.workclock .wc-paused {
+  display: none;
+  color: var(--ink-500);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+}
+.workclock.frozen .wc-value { color: var(--ink-500); }
+.workclock.frozen .wc-paused { display: inline; }
+
 .giant {
   font-family: var(--font-sans);
   font-weight: 500;
@@ -155,11 +174,13 @@ body.launched .hide-on-launch { display: none !important; }
   height: 224px;
   border-top: 1px solid var(--ink-600);
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  /* One equal column per milestone, however many there are */
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
 }
 .d1a .m-cell {
   border-right: 1px solid var(--ink-600);
-  padding: 36px 40px;
+  padding: 32px 28px;
   display: flex;
   flex-direction: column;
   gap: 10px;
