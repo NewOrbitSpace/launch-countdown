@@ -334,29 +334,3 @@ body.launched .hide-on-launch { display: none !important; }
 .d1g .giant { font-size: 340px; line-height: 0.95; }
 .d1g .g-days { font-weight: 300; font-size: 72px; color: var(--ink-300); }
 .d1g .g-hms { font-size: 44px; letter-spacing: 0.08em; color: var(--signal-red); }
-
-/* ---------- DESIGN SWITCHER — temporary, delete with the nav ---------- */
-#design-switcher {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  display: flex;
-  gap: 6px;
-  opacity: 0.35;
-  transition: opacity 120ms ease;
-}
-#design-switcher:hover { opacity: 1; }
-#design-switcher button {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--ink-300);
-  background: var(--ink-800);
-  border: 1px solid var(--ink-600);
-  border-radius: 4px;
-  padding: 6px 10px;
-  cursor: pointer;
-}
-#design-switcher button.active {
-  color: var(--white);
-  border-color: var(--ink-300);
-}
