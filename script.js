@@ -37,9 +37,12 @@
   function evState(ev, now) {
     const done = ev.t <= now;
     const dDays = Math.round(Math.abs(ev.t - now) / 86400000);
+    // Reviews also show remaining working days (weekdays minus holidays)
+    const showWd = wt && !done && !ev.isLaunch;
     return {
       done: done,
       delta: done ? "T+" + dDays + "D" : "T-" + dDays + "D",
+      wd: showWd ? " · " + workdaysUntil(ev.t, now) + "WD" : "",
       cls: "m-item" + (ev.isLaunch ? " launch" : "") + (done ? " done" : ""),
     };
   }
@@ -47,7 +50,7 @@
   const BUILDERS = {
     strip: function (ev, st) {
       return '<div class="m-cell ' + st.cls + '">' +
-        '<div class="m-row"><span class="dot"></span><span class="m-code mono">' + ev.code + '</span><span class="m-delta mono">' + st.delta + '</span></div>' +
+        '<div class="m-row"><span class="dot"></span><span class="m-code mono">' + ev.code + '</span><span class="m-delta mono">' + st.delta + st.wd + '</span></div>' +
         '<div class="m-name">' + ev.name + '</div>' +
         '<div class="m-date mono">' + fmtShort(ev) + '</div></div>';
     },
@@ -55,12 +58,12 @@
       return '<div class="m-lrow ' + st.cls + '"><span class="dot"></span>' +
         '<div class="m-lmain"><span class="m-ltitle">' + ev.code + ' — ' + ev.name + '</span>' +
         '<span class="m-date mono">' + fmtShort(ev) + '</span></div>' +
-        '<span class="m-delta mono">' + st.delta + '</span></div>';
+        '<span class="m-delta mono">' + st.delta + st.wd + '</span></div>';
     },
     trajectory: function (ev, st, i) {
       const pos = (i / (events.length - 1)) * 100;
       return '<div class="m-node ' + st.cls + '" style="left:' + pos + '%">' +
-        '<div class="m-delta-slot"><span class="m-delta mono">' + st.delta + '</span></div>' +
+        '<div class="m-delta-slot"><span class="m-delta mono">' + st.delta + st.wd + '</span></div>' +
         '<span class="dot dot-lg"></span>' +
         '<span class="m-code mono">' + ev.code + '</span>' +
         '<span class="m-name">' + ev.name + '</span>' +
@@ -69,12 +72,12 @@
     chips: function (ev, st) {
       return '<div class="m-chip ' + st.cls + '">' +
         '<span class="m-code mono">' + ev.code + '</span>' +
-        '<span class="m-delta mono">' + (st.done ? "COMPLETE" : st.delta) + '</span></div>';
+        '<span class="m-delta mono">' + (st.done ? "COMPLETE" : st.delta + st.wd) + '</span></div>';
     },
     rail: function (ev, st) {
       return '<div class="m-ritem ' + st.cls + '"><div class="m-rrow"><span class="dot"></span>' +
         '<div class="m-rmain"><div class="m-rhead"><span class="m-rcode">' + ev.code + '</span>' +
-        '<span class="m-delta mono">' + st.delta + '</span></div>' +
+        '<span class="m-delta mono">' + st.delta + st.wd + '</span></div>' +
         '<span class="m-rname">' + ev.name + '</span>' +
         '<span class="m-date mono">' + fmtShort(ev) + '</span></div></div>' +
         (ev.last ? '' : '<div class="stem"></div>') + '</div>';
@@ -103,6 +106,20 @@
     const dow = d.getDay();
     return dow !== 0 && dow !== 6 &&
       !holidaySet[d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate())];
+  }
+
+  // Working days strictly after today, up to and including the event's day.
+  function workdaysUntil(t, now) {
+    const day = new Date(now);
+    day.setHours(0, 0, 0, 0);
+    const end = new Date(t);
+    end.setHours(0, 0, 0, 0);
+    let n = 0;
+    while (day.getTime() < end.getTime()) {
+      day.setDate(day.getDate() + 1);
+      if (isWorkday(day)) n++;
+    }
+    return n;
   }
 
   // Overlap of [a, b) with the working windows, in ms (local time).
@@ -157,8 +174,10 @@
 
     tickWorkclock(now);
 
-    // Rebuild milestone lists only when an event flips to complete
-    const key = events.map(function (e) { return e.t <= now ? "1" : "0"; }).join("");
+    // Rebuild milestone lists when an event flips to complete or the day
+    // changes (the T-xD / WD deltas move at midnight on long-running screens)
+    const key = new Date(now).toDateString() +
+      events.map(function (e) { return e.t <= now ? "1" : "0"; }).join("");
     if (key !== doneKey) { doneKey = key; buildMilestones(); }
   }
 
