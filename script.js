@@ -185,8 +185,16 @@
   setInterval(tick, 1000);
 
   // ---------- Stage scaling (1920x1080 fit to viewport) ----------
+  // On narrow/mobile viewports the fixed canvas would scale down to an
+  // unreadable sliver, so we drop the transform and let the CSS media
+  // query reflow the layout into a natural vertical document.
   const stage = document.getElementById("stage");
+  const mobileMq = window.matchMedia("(max-width: 900px), (orientation: portrait)");
   function fit() {
+    if (mobileMq.matches) {
+      stage.style.transform = "";
+      return;
+    }
     const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
     stage.style.transform = "translate(-50%, -50%) scale(" + s + ")";
   }
