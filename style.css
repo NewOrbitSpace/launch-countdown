@@ -493,10 +493,8 @@ body.launched .hide-on-launch { display: none !important; }
 
 /* =====================================================
    Design 3 — Apollo Mission Control (Houston MOCR)
-   The 1960s Manned Spacecraft Center control room: a
-   green-phosphor CRT theme (scanlines + glow), the front-
-   wall world-map "big board" with an orbital ground track
-   and MSFN tracking stations, and a green mission clock.
+   A green-phosphor CRT theme (scanlines + glow): a large
+   green mission clock over a console log of milestones.
    Own monochrome palette — not the NewOrbit brand system.
    ===================================================== */
 .d3 {
@@ -531,26 +529,14 @@ body.launched .hide-on-launch { display: none !important; }
     radial-gradient(125% 125% at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.6));
 }
 
-/* Header */
-.d3 .apx-top {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--apx-line);
-  font-size: 15px;
-  letter-spacing: 0.28em;
-  color: var(--apx-green-2);
-  text-shadow: 0 0 10px rgba(31, 216, 105, 0.5);
-}
-
-/* Mission clock */
+/* Mission clock (centred in the space above the log) */
 .d3 .apx-clockwrap {
-  flex: none;
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 14px;
   text-align: center;
 }
@@ -569,40 +555,6 @@ body.launched .hide-on-launch { display: none !important; }
 .d3 .apx-u { font-size: 50px; color: var(--apx-green-2); margin-right: 16px; }
 .d3 .apx-sep { color: var(--apx-green-2); opacity: 0.8; }
 .d3 .apx-clocksub { font-size: 18px; letter-spacing: 0.12em; color: var(--apx-dim); }
-
-/* Big board — world map + ground track */
-.d3 .apx-board {
-  flex: 1;
-  position: relative;
-  min-height: 0;
-  border: 1px solid var(--apx-line);
-  border-radius: 4px;
-  background: rgba(6, 26, 15, 0.5);
-  overflow: hidden;
-}
-.d3 .apx-board-tag {
-  position: absolute;
-  top: 12px; left: 16px;
-  z-index: 2;
-  font-size: 12px;
-  letter-spacing: 0.2em;
-  color: var(--apx-green-2);
-}
-.d3 .apx-map { position: absolute; inset: 0; width: 100%; height: 100%; }
-.d3 .apx-land { fill: rgba(61, 255, 134, 0.1); stroke: rgba(61, 255, 134, 0.3); stroke-width: 1; }
-.d3 .apx-grid line { stroke: var(--apx-line); stroke-width: 1; }
-.d3 .apx-grid .apx-eq { stroke: rgba(61, 255, 134, 0.32); }
-.d3 .apx-trackline {
-  fill: none;
-  stroke: var(--apx-green);
-  stroke-width: 2.5;
-  stroke-dasharray: 7 6;
-  filter: drop-shadow(0 0 4px rgba(61, 255, 134, 0.8));
-}
-.d3 .apx-blip { fill: #eafff2; filter: drop-shadow(0 0 8px var(--apx-green)); }
-.d3 .apx-stations circle { fill: none; stroke: var(--apx-green-2); stroke-width: 1.5; }
-.d3 .apx-stations path { stroke: var(--apx-green-2); stroke-width: 1; }
-.d3 .apx-stations text { fill: var(--apx-green-2); font-size: 13px; letter-spacing: 0.12em; text-anchor: middle; }
 
 /* Sequence of events strip */
 .d3 .apx-log {
@@ -782,12 +734,11 @@ body.launched .hide-on-launch { display: none !important; }
   .d3.active { display: block; }
   .d3 .apx { position: static; gap: 18px; padding: 22px 16px 28px; overflow-x: hidden; }
   .d3 .apx > * { min-width: 0; max-width: 100%; }
-  .d3 .apx-top { flex-direction: column; align-items: flex-start; gap: 6px; font-size: 11px; letter-spacing: 0.14em; }
+  .d3 .apx-clockwrap { padding: 20px 0 8px; }
   .d3 .apx-clab { font-size: 12px; letter-spacing: 0.2em; text-indent: 0.2em; }
-  .d3 .apx-clock { font-size: clamp(30px, 10.5vw, 72px); gap: 2px; max-width: 100%; }
-  .d3 .apx-u { font-size: clamp(20px, 5.5vw, 34px); margin-right: 6px; }
+  .d3 .apx-clock { font-size: clamp(24px, 8.8vw, 72px); gap: 1px; max-width: 100%; }
+  .d3 .apx-u { font-size: clamp(18px, 5vw, 34px); margin-right: 5px; }
   .d3 .apx-clocksub { font-size: 14px; }
-  .d3 .apx-board { height: 44vw; min-height: 220px; }
   .d3 .apx-log {
     height: auto;
     display: block;
@@ -799,6 +750,7 @@ body.launched .hide-on-launch { display: none !important; }
     padding: 14px 16px;
     gap: 6px;
   }
+  .d3 .apx-cell-top { justify-content: flex-start; gap: 14px; }
   .d3 .apx-cell-name { overflow-wrap: anywhere; }
   .d3 .launched-msg { font-size: clamp(44px, 14vw, 96px); text-align: center; }
 }

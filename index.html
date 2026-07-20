@@ -153,17 +153,12 @@
     </section>
 
     <!-- ============ Design 3 — Apollo Mission Control (Houston MOCR) ============ -->
-    <!-- The 1960s Manned Spacecraft Center control room: green-phosphor CRT,
-         the front-wall world map "big board" with an orbital ground track, and
-         a green mission clock. Own palette + type — not the NewOrbit brand. -->
+    <!-- The 1960s Manned Spacecraft Center control room: green-phosphor CRT
+         mission clock over a green console log of milestones. Own palette +
+         type — not the NewOrbit brand system. -->
+
     <section class="design d3" data-design="3">
       <div class="apx">
-
-        <!-- Header -->
-        <header class="apx-top">
-          <span class="apx-top-l">MISSION CONTROL CENTER</span>
-          <span class="apx-top-r">HOUSTON, TEXAS</span>
-        </header>
 
         <!-- Mission clock -->
         <div class="apx-clockwrap">
@@ -176,53 +171,6 @@
           </div>
           <div class="launched-msg"></div>
           <div class="apx-clocksub js-launchline"></div>
-        </div>
-
-        <!-- Big board — world map + orbital ground track -->
-        <div class="apx-board">
-          <div class="apx-board-tag">GROUND TRACK · MSFN</div>
-          <svg class="apx-map" viewBox="0 0 1000 440" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-            <!-- Continents (stylised, faint) -->
-            <g class="apx-land">
-              <path d="M110,70 Q88,112 132,122 Q142,162 182,172 L205,150 L252,150 Q272,120 250,94 Q210,58 150,64 Z"/>
-              <path d="M252,250 Q240,302 272,352 Q292,402 312,360 Q332,300 320,264 Q290,244 252,250 Z"/>
-              <path d="M470,108 L522,104 L560,120 L560,160 Q590,182 570,232 Q560,302 520,342 Q490,320 490,270 Q470,220 480,168 Q460,138 470,108 Z"/>
-              <path d="M580,88 Q652,68 762,90 Q862,100 882,142 Q862,182 782,182 Q700,192 640,170 Q590,150 580,88 Z"/>
-              <path d="M804,300 Q862,290 902,316 Q892,352 842,352 Q800,340 804,300 Z"/>
-            </g>
-            <!-- Graticule -->
-            <g class="apx-grid">
-              <line x1="0" y1="73" x2="1000" y2="73"/>
-              <line x1="0" y1="147" x2="1000" y2="147"/>
-              <line x1="0" y1="220" x2="1000" y2="220" class="apx-eq"/>
-              <line x1="0" y1="293" x2="1000" y2="293"/>
-              <line x1="0" y1="367" x2="1000" y2="367"/>
-              <line x1="125" y1="0" x2="125" y2="440"/>
-              <line x1="250" y1="0" x2="250" y2="440"/>
-              <line x1="375" y1="0" x2="375" y2="440"/>
-              <line x1="500" y1="0" x2="500" y2="440" class="apx-eq"/>
-              <line x1="625" y1="0" x2="625" y2="440"/>
-              <line x1="750" y1="0" x2="750" y2="440"/>
-              <line x1="875" y1="0" x2="875" y2="440"/>
-            </g>
-            <!-- Orbital ground track -->
-            <path id="apx-track" class="apx-trackline"
-              d="M0,220 C80,120 170,120 250,220 S420,320 500,220 S670,120 750,220 S920,320 1000,220"/>
-            <circle class="apx-blip" r="7">
-              <animateMotion dur="24s" repeatCount="indefinite" rotate="auto">
-                <mpath href="#apx-track"/>
-              </animateMotion>
-            </circle>
-            <!-- Tracking stations (Manned Space Flight Network) -->
-            <g class="apx-stations">
-              <g transform="translate(95,205)"><circle r="9"/><path d="M-14,0H14M0,-14V14"/><text y="26">HAW</text></g>
-              <g transform="translate(235,240)"><circle r="9"/><path d="M-14,0H14M0,-14V14"/><text y="26">TEX</text></g>
-              <g transform="translate(150,150)"><circle r="9"/><path d="M-14,0H14M0,-14V14"/><text y="26">GDS</text></g>
-              <g transform="translate(520,150)"><circle r="9"/><path d="M-14,0H14M0,-14V14"/><text y="26">MAD</text></g>
-              <g transform="translate(490,245)"><circle r="9"/><path d="M-14,0H14M0,-14V14"/><text y="26">CYI</text></g>
-              <g transform="translate(845,305)"><circle r="9"/><path d="M-14,0H14M0,-14V14"/><text y="26">CRO</text></g>
-            </g>
-          </svg>
         </div>
 
         <!-- Sequence of events -->
