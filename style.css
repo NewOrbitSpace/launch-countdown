@@ -355,3 +355,86 @@ body.launched .hide-on-launch { display: none !important; }
 .d1g .giant { font-size: 340px; line-height: 0.95; }
 .d1g .g-days { font-weight: 300; font-size: 72px; color: var(--ink-300); }
 .d1g .g-hms { font-size: 44px; letter-spacing: 0.08em; color: var(--signal-red); }
+
+/* =====================================================
+   Mobile — reflow the fixed canvas into a natural column.
+   Below 900px, or on any portrait viewport, the 1920x1080
+   stage would scale to an unreadable sliver (or leave big
+   empty bands), so we let the document flow instead.
+   (Only design 1a "Mission control" is published/active.)
+   ===================================================== */
+@media (max-width: 900px), (orientation: portrait) {
+  html, body { height: auto; overflow-x: hidden; overflow-y: auto; }
+
+  #stage {
+    position: static;
+    width: 100%;
+    height: auto;
+    transform: none !important;
+  }
+
+  .design { position: static; inset: auto; }
+
+  /* ---------- 1a — Mission control (mobile) ---------- */
+  .d1a.active { display: flex; flex-direction: column; min-height: 100vh; }
+
+  .d1a .topbar {
+    position: static;
+    height: auto;
+    padding: 18px 20px;
+  }
+
+  .d1a .center {
+    position: static;
+    flex: 1;
+    padding: 40px 20px 48px;
+    gap: 32px;
+  }
+
+  .d1a .eyebrow-red { font-size: 13px; text-align: center; }
+
+  /* 4 units become a 2x2 grid of cards; colons are dropped */
+  .d1a .clock {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 440px;
+  }
+  .d1a .colon { display: none; }
+  .d1a .unit {
+    gap: 10px;
+    padding: 22px 8px;
+    background: var(--ink-900);
+    border: 1px solid var(--ink-700);
+    border-radius: 14px;
+  }
+  .d1a .value { font-size: clamp(44px, 17vw, 88px); }
+  .d1a .unit-label { font-size: 12px; }
+
+  .clock-sub { font-size: 16px; text-align: center; }
+
+  .workclock {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 14px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  /* Milestone strip becomes a stacked list */
+  .d1a .strip {
+    position: static;
+    height: auto;
+    display: block;
+    border-top: 1px solid var(--ink-600);
+  }
+  .d1a .m-cell {
+    border-right: none;
+    border-bottom: 1px solid var(--ink-600);
+    padding: 20px;
+  }
+
+  /* Launched banner scales down so it never overflows */
+  .launched-msg { font-size: clamp(48px, 15vw, 96px); text-align: center; }
+}
