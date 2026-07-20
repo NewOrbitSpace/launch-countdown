@@ -4,7 +4,7 @@ A static countdown page for the NEO Rideshare launch — for laptops, the lobby 
 
 ## Structure
 
-- `index.html` — page markup; the published design is Mission control (1a). The other four variants (Split, Trajectory, Minimal, Rail) remain in the markup but are hidden.
+- `index.html` — page markup. A corner toggle switches between two published designs: **Dashboard (1a)** and **Mission Control (2)**. Four older exploration variants (Split, Trajectory, Minimal, Rail) remain in the markup but are hidden and not in the toggle.
 - `config.js` — **edit this** to set the mission events and launch date
 - `style.css` / `script.js` — styling and countdown logic
 - `assets/`, `fonts/` — logo and Aeonik Pro fonts used by the site
@@ -12,7 +12,14 @@ A static countdown page for the NEO Rideshare launch — for laptops, the lobby 
 
 ## Design
 
-The published page shows the **Mission control (1a)** design. The other four variants (Split, Trajectory, Minimal, Rail) are still implemented in `index.html`, `style.css`, and `script.js`, but the corner switcher nav has been removed so the published page only ever shows 1a. Only the `<section class="design d1a active">` block is displayed; the rest stay hidden. To switch the published design, move the `active` class to a different `<section class="design ...">` block in `index.html`.
+The page ships two designs, switched by the corner toggle (bottom-right):
+
+- **Dashboard (1a)** — the original NewOrbit-branded layout: large countdown with the milestone strip along the bottom. This is the default.
+- **Mission Control (2)** — a NASA-style launch-control display: a big amber seven-segment "COUNTDOWN TO LAUNCH" clock over a milestone status strip. It deliberately does **not** use the NewOrbit brand system — its own dark palette, Barlow type, and a real DSEG7 seven-segment LED face (loaded from a CDN, falling back to the mono stack offline).
+
+The toggle remembers your choice in `localStorage` and also honours `?design=1a` / `?design=2` in the URL. To change which design is shown by default, reorder the entries in the `DESIGNS` array in `script.js` (the first entry is the fallback).
+
+Four earlier exploration variants (Split, Trajectory, Minimal, Rail) are still implemented in the markup but are not in the toggle. To show one, add it to the `DESIGNS` array (or point the `active` class at its `<section class="design ...">` block).
 
 ## Local preview
 

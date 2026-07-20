@@ -5,6 +5,17 @@
    ===================================================== */
 
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap");
+/* Design 2 (Mission Control) only — NASA-console type, independent of the brand */
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap");
+
+/* True seven-segment LED face for the Mission Control countdown.
+   Loaded from a CDN; falls back to the mono stack if unavailable. */
+@font-face {
+  font-family: "DSEG7 Classic";
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/npm/dseg@0.46.0/fonts/DSEG7-Classic/DSEG7Classic-Bold.woff2") format("woff2");
+}
 
 @font-face {
   font-family: "Aeonik Pro";
@@ -32,6 +43,8 @@
   --ink-300: #A0A0AA;
   --white: #FFFFFF;
   --signal-red: #E63329;
+  --amber: #FFB020;
+  --go-green: #46D17A;
   --font-sans: "Aeonik Pro", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
 }
@@ -187,6 +200,128 @@ body.launched .hide-on-launch { display: none !important; }
 }
 .d1a .m-row { display: flex; align-items: center; gap: 12px; }
 .d1a .m-row .m-delta { margin-left: auto; font-size: 15px; }
+
+/* =====================================================
+   Design 2 — Mission Control (control room)
+   A NASA-style launch-control display: a big amber
+   seven-segment countdown (COUNTDOWN TO LAUNCH) over a
+   milestone status strip. Deliberately NOT the NewOrbit
+   brand system — its own palette, Barlow type, and a real
+   DSEG7 seven-segment LED face for the clock.
+   ===================================================== */
+.d2 {
+  --mcx-bg: #050b13;
+  --mcx-border: #1a2a3d;
+  --mcx-head: #7d95b6;
+  --mcx-text: #cbd8ea;
+  --mcx-muted: #58698a;
+  --mcx-amber: #ffb020;
+  --mcx-green: #37e08a;
+  --mcx-red: #ff5a4d;
+  color: var(--mcx-text);
+  font-family: "Barlow Semi Condensed", "Helvetica Neue", Arial, sans-serif;
+  background:
+    radial-gradient(140% 100% at 50% -20%, rgba(28, 52, 84, 0.4), transparent 60%),
+    var(--mcx-bg);
+}
+
+.d2 .mcx {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Countdown clock (hero) ---- */
+.d2 .mcx-clock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 52px;
+  padding: 40px;
+}
+.d2 .mcx-clock-title {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  color: #dbe6f5;
+}
+.d2 .mcx-seg { display: flex; align-items: flex-end; gap: 18px; }
+.d2 .mcx-col { display: flex; flex-direction: column; align-items: center; gap: 26px; }
+.d2 .mcx-seglab {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+  color: var(--mcx-head);
+}
+.d2 .mcx-digit {
+  position: relative;
+  display: inline-block;
+  min-width: 2ch;
+  text-align: right;
+  font-family: "DSEG7 Classic", var(--font-mono);
+  font-weight: 700;
+  font-size: 168px;
+  line-height: 0.82;
+}
+.d2 .mcx-digit.mcx-w3 { min-width: 3ch; }
+.d2 .mcx-ghost { position: absolute; inset: 0; color: var(--mcx-amber); opacity: 0.045; }
+.d2 .mcx-val {
+  position: relative;
+  color: var(--mcx-amber);
+  text-shadow: 0 0 26px rgba(255, 176, 32, 0.55), 0 0 6px rgba(255, 176, 32, 0.8);
+}
+.d2 .mcx-colon {
+  font-family: var(--font-mono);
+  font-size: 96px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--mcx-amber);
+  opacity: 0.7;
+  padding-bottom: 22px;
+  text-shadow: 0 0 18px rgba(255, 176, 32, 0.45);
+}
+
+/* ---- Mission milestones (status strip along the bottom) ---- */
+.d2 .mcx-strip {
+  flex: none;
+  height: 250px;
+  border-top: 1px solid var(--mcx-border);
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+.d2 .mcx-mcard {
+  border-right: 1px solid var(--mcx-border);
+  padding: 30px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.d2 .mcx-mcard:last-child { border-right: none; }
+.d2 .mcx-mrow { display: flex; align-items: center; gap: 12px; }
+.d2 .mcx-mdot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex: none;
+  background: transparent;
+  border: 1px solid var(--mcx-muted);
+}
+.d2 .mcx-mcode { font-size: 21px; font-weight: 600; letter-spacing: 0.05em; color: var(--mcx-text); }
+.d2 .mcx-mstatus { margin-left: auto; font-size: 15px; font-weight: 600; letter-spacing: 0.05em; color: var(--mcx-amber); }
+.d2 .mcx-mname { font-size: 17px; color: var(--mcx-head); line-height: 1.35; }
+.d2 .mcx-mdate { margin-top: auto; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.06em; color: var(--mcx-muted); }
+.d2 .mcx-mcard.done { opacity: 0.5; }
+.d2 .mcx-mcard.done .mcx-mdot { background: var(--mcx-green); border-color: var(--mcx-green); }
+.d2 .mcx-mcard.done .mcx-mstatus { color: var(--mcx-green); }
+.d2 .mcx-mcard.launch .mcx-mdot { background: var(--mcx-red); border-color: var(--mcx-red); box-shadow: 0 0 8px var(--mcx-red); }
+.d2 .mcx-mcard.launch .mcx-mstatus { color: var(--mcx-red); }
+
+.d2 .launched-msg { font-size: 130px; color: var(--mcx-amber); }
 
 /* ---------- 1c — Split ---------- */
 .d1c .left {
@@ -357,6 +492,179 @@ body.launched .hide-on-launch { display: none !important; }
 .d1g .g-hms { font-size: 44px; letter-spacing: 0.08em; color: var(--signal-red); }
 
 /* =====================================================
+   Design 3 — Apollo Mission Control (Houston MOCR)
+   The 1960s Manned Spacecraft Center control room: a
+   green-phosphor CRT theme (scanlines + glow), the front-
+   wall world-map "big board" with an orbital ground track
+   and MSFN tracking stations, and a green mission clock.
+   Own monochrome palette — not the NewOrbit brand system.
+   ===================================================== */
+.d3 {
+  --apx-green: #3dff86;
+  --apx-green-2: #1fd869;
+  --apx-dim: #12854a;
+  --apx-bg: #03100a;
+  --apx-line: rgba(61, 255, 134, 0.16);
+  color: var(--apx-green);
+  font-family: var(--font-mono);
+  background:
+    radial-gradient(120% 90% at 50% 42%, rgba(20, 80, 45, 0.35), transparent 70%),
+    var(--apx-bg);
+}
+.d3 .apx {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 40px 56px 32px;
+}
+/* CRT scanlines + vignette */
+.d3 .apx::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.22) 2px 4px),
+    radial-gradient(125% 125% at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.6));
+}
+
+/* Header */
+.d3 .apx-top {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--apx-line);
+  font-size: 15px;
+  letter-spacing: 0.28em;
+  color: var(--apx-green-2);
+  text-shadow: 0 0 10px rgba(31, 216, 105, 0.5);
+}
+
+/* Mission clock */
+.d3 .apx-clockwrap {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+.d3 .apx-clab { font-size: 16px; letter-spacing: 0.4em; text-indent: 0.4em; color: var(--apx-dim); }
+.d3 .apx-clock {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 118px;
+  font-weight: 700;
+  line-height: 0.9;
+  color: var(--apx-green);
+  font-feature-settings: "tnum" 1;
+  text-shadow: 0 0 26px rgba(61, 255, 134, 0.5), 0 0 6px rgba(61, 255, 134, 0.9);
+}
+.d3 .apx-u { font-size: 50px; color: var(--apx-green-2); margin-right: 16px; }
+.d3 .apx-sep { color: var(--apx-green-2); opacity: 0.8; }
+.d3 .apx-clocksub { font-size: 18px; letter-spacing: 0.12em; color: var(--apx-dim); }
+
+/* Big board — world map + ground track */
+.d3 .apx-board {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  border: 1px solid var(--apx-line);
+  border-radius: 4px;
+  background: rgba(6, 26, 15, 0.5);
+  overflow: hidden;
+}
+.d3 .apx-board-tag {
+  position: absolute;
+  top: 12px; left: 16px;
+  z-index: 2;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--apx-green-2);
+}
+.d3 .apx-map { position: absolute; inset: 0; width: 100%; height: 100%; }
+.d3 .apx-land { fill: rgba(61, 255, 134, 0.1); stroke: rgba(61, 255, 134, 0.3); stroke-width: 1; }
+.d3 .apx-grid line { stroke: var(--apx-line); stroke-width: 1; }
+.d3 .apx-grid .apx-eq { stroke: rgba(61, 255, 134, 0.32); }
+.d3 .apx-trackline {
+  fill: none;
+  stroke: var(--apx-green);
+  stroke-width: 2.5;
+  stroke-dasharray: 7 6;
+  filter: drop-shadow(0 0 4px rgba(61, 255, 134, 0.8));
+}
+.d3 .apx-blip { fill: #eafff2; filter: drop-shadow(0 0 8px var(--apx-green)); }
+.d3 .apx-stations circle { fill: none; stroke: var(--apx-green-2); stroke-width: 1.5; }
+.d3 .apx-stations path { stroke: var(--apx-green-2); stroke-width: 1; }
+.d3 .apx-stations text { fill: var(--apx-green-2); font-size: 13px; letter-spacing: 0.12em; text-anchor: middle; }
+
+/* Sequence of events strip */
+.d3 .apx-log {
+  flex: none;
+  height: 168px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  border: 1px solid var(--apx-line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.d3 .apx-cell {
+  border-right: 1px solid var(--apx-line);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.d3 .apx-cell:last-child { border-right: none; }
+.d3 .apx-cell-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.d3 .apx-cell-code { font-size: 20px; font-weight: 700; letter-spacing: 0.08em; color: var(--apx-green); }
+.d3 .apx-cell-status { font-size: 13px; letter-spacing: 0.06em; color: var(--apx-green-2); }
+.d3 .apx-cell-name { font-size: 14px; line-height: 1.35; color: var(--apx-dim); }
+.d3 .apx-cell-date { margin-top: auto; font-size: 12px; letter-spacing: 0.08em; color: var(--apx-dim); }
+.d3 .apx-cell.done { opacity: 0.5; }
+.d3 .apx-cell.done .apx-cell-status { color: var(--apx-green); }
+.d3 .apx-cell.launch { background: rgba(61, 255, 134, 0.06); }
+.d3 .apx-cell.launch .apx-cell-code,
+.d3 .apx-cell.launch .apx-cell-status { color: #eafff2; text-shadow: 0 0 10px rgba(61, 255, 134, 0.7); }
+
+.d3 .launched-msg { font-size: 120px; color: var(--apx-green); text-shadow: 0 0 30px rgba(61, 255, 134, 0.6); }
+
+/* ---------- Design toggle (Dashboard ⇄ Mission Control) ---------- */
+#design-switcher {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 10;
+  display: flex;
+  gap: 6px;
+  opacity: 0.35;
+  transition: opacity 120ms ease;
+}
+#design-switcher:hover { opacity: 1; }
+#design-switcher button {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--ink-300);
+  background: var(--ink-800);
+  border: 1px solid var(--ink-600);
+  border-radius: 4px;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+#design-switcher button.active {
+  color: var(--white);
+  border-color: var(--ink-300);
+}
+
+/* =====================================================
    Mobile — reflow the fixed canvas into a natural column.
    Below 900px, or on any portrait viewport, the 1920x1080
    stage would scale to an unreadable sliver (or leave big
@@ -369,7 +677,9 @@ body.launched .hide-on-launch { display: none !important; }
   #stage {
     position: static;
     width: 100%;
+    max-width: 100vw;
     height: auto;
+    overflow-x: hidden;
     transform: none !important;
   }
 
@@ -437,4 +747,58 @@ body.launched .hide-on-launch { display: none !important; }
 
   /* Launched banner scales down so it never overflows */
   .launched-msg { font-size: clamp(48px, 15vw, 96px); text-align: center; }
+
+  /* ---------- Design 2 — Mission Control (mobile) ---------- */
+  .d2.active { display: flex; flex-direction: column; min-height: 100vh; }
+  .d2 .mcx {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+  .d2 .mcx-clock { flex: 1; padding: 44px 16px; gap: 28px; }
+  .d2 .mcx-clock-title { font-size: 15px; letter-spacing: 0.18em; text-align: center; text-indent: 0.18em; }
+  .d2 .mcx-seg { gap: 5px; max-width: 100%; }
+  .d2 .mcx-col { gap: 12px; }
+  .d2 .mcx-digit { font-size: clamp(32px, 10.5vw, 68px); }
+  .d2 .mcx-colon { font-size: clamp(26px, 8vw, 52px); padding-bottom: 8px; }
+  .d2 .mcx-seglab { font-size: 10px; letter-spacing: 0.12em; text-indent: 0.12em; }
+
+  /* Milestone strip becomes a stacked list */
+  .d2 .mcx-strip {
+    height: auto;
+    display: block;
+    border-top: 1px solid var(--mcx-border);
+  }
+  .d2 .mcx-mcard {
+    border-right: none;
+    border-bottom: 1px solid var(--mcx-border);
+    padding: 18px 20px;
+    gap: 8px;
+  }
+  .d2 .mcx-mname { overflow-wrap: anywhere; }
+
+  /* ---------- Design 3 — Apollo Mission Control (mobile) ---------- */
+  .d3.active { display: block; }
+  .d3 .apx { position: static; gap: 18px; padding: 22px 16px 28px; overflow-x: hidden; }
+  .d3 .apx > * { min-width: 0; max-width: 100%; }
+  .d3 .apx-top { flex-direction: column; align-items: flex-start; gap: 6px; font-size: 11px; letter-spacing: 0.14em; }
+  .d3 .apx-clab { font-size: 12px; letter-spacing: 0.2em; text-indent: 0.2em; }
+  .d3 .apx-clock { font-size: clamp(30px, 10.5vw, 72px); gap: 2px; max-width: 100%; }
+  .d3 .apx-u { font-size: clamp(20px, 5.5vw, 34px); margin-right: 6px; }
+  .d3 .apx-clocksub { font-size: 14px; }
+  .d3 .apx-board { height: 44vw; min-height: 220px; }
+  .d3 .apx-log {
+    height: auto;
+    display: block;
+    border-radius: 4px;
+  }
+  .d3 .apx-cell {
+    border-right: none;
+    border-bottom: 1px solid var(--apx-line);
+    padding: 14px 16px;
+    gap: 6px;
+  }
+  .d3 .apx-cell-name { overflow-wrap: anywhere; }
+  .d3 .launched-msg { font-size: clamp(44px, 14vw, 96px); text-align: center; }
 }

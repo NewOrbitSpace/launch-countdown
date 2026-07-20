@@ -74,6 +74,19 @@
         '<span class="m-code mono">' + ev.code + '</span>' +
         '<span class="m-delta mono">' + (st.done ? "COMPLETE" : st.delta + st.wd) + '</span></div>';
     },
+    mcx: function (ev, st) {
+      // Mission Control status strip: one card per milestone.
+      const status = ev.isLaunch
+        ? (st.done ? "LIFTOFF" : "GO")
+        : (st.done ? "COMPLETE" : st.delta);
+      const cls = "mcx-mcard" + (ev.isLaunch ? " launch" : "") + (st.done ? " done" : "");
+      return '<div class="' + cls + '">' +
+        '<div class="mcx-mrow"><span class="mcx-mdot"></span>' +
+        '<span class="mcx-mcode">' + ev.code + '</span>' +
+        '<span class="mcx-mstatus">' + status + '</span></div>' +
+        '<div class="mcx-mname">' + ev.name + '</div>' +
+        '<div class="mcx-mdate">' + fmtShort(ev) + '</div></div>';
+    },
     rail: function (ev, st) {
       return '<div class="m-ritem ' + st.cls + '"><div class="m-rrow"><span class="dot"></span>' +
         '<div class="m-rmain"><div class="m-rhead"><span class="m-rcode">' + ev.code + '</span>' +
@@ -81,6 +94,18 @@
         '<span class="m-rname">' + ev.name + '</span>' +
         '<span class="m-date mono">' + fmtShort(ev) + '</span></div></div>' +
         (ev.last ? '' : '<div class="stem"></div>') + '</div>';
+    },
+    apollo: function (ev, st) {
+      // Apollo MOCR console log: one green cell per milestone.
+      const status = ev.isLaunch
+        ? (st.done ? "LIFTOFF" : "GO")
+        : (st.done ? "COMPLETE" : st.delta);
+      const cls = "apx-cell" + (ev.isLaunch ? " launch" : "") + (st.done ? " done" : "");
+      return '<div class="' + cls + '">' +
+        '<div class="apx-cell-top"><span class="apx-cell-code">' + ev.code + '</span>' +
+        '<span class="apx-cell-status">' + status + '</span></div>' +
+        '<div class="apx-cell-name">' + ev.name + '</div>' +
+        '<div class="apx-cell-date">' + fmtShort(ev) + '</div></div>';
     },
   };
 
@@ -156,6 +181,13 @@
     d: qa(".v-days"), h: qa(".v-hours"), m: qa(".v-min"), s: qa(".v-sec"),
   };
   const progressEls = qa(".js-progress");
+  const metaEls = {
+    remdays: qa(".js-remdays"),
+    pct: qa(".js-pct"),
+    next: qa(".js-next"),
+    gates: qa(".js-gates"),
+  };
+  const gateCount = events.filter(function (e) { return !e.isLaunch; }).length;
   let doneKey = "";
 
   function setAll(list, text) { list.forEach(function (el) { el.textContent = text; }); }
@@ -171,6 +203,16 @@
 
     const pct = Math.min(100, Math.max(0, ((now - start) / (launch.t - start)) * 100));
     progressEls.forEach(function (el) { el.style.width = pct.toFixed(3) + "%"; });
+
+    // Mission Control panel readouts
+    setAll(metaEls.remdays, String(Math.floor(ts / 86400)));
+    setAll(metaEls.pct, String(Math.round(pct)));
+    const nextEv = events.find(function (e) { return e.t > now; });
+    setAll(metaEls.next, nextEv
+      ? nextEv.code + " · T-" + Math.round((nextEv.t - now) / 86400000) + "D"
+      : "—");
+    const cleared = events.filter(function (e) { return !e.isLaunch && e.t <= now; }).length;
+    setAll(metaEls.gates, cleared + " / " + gateCount);
 
     tickWorkclock(now);
 
@@ -200,4 +242,42 @@
   }
   fit();
   window.addEventListener("resize", fit);
+
+  /* ---------- Design toggle (Dashboard ⇄ Mission Control) ----------
+     Two options only: the live Dashboard (1a) and the Mission Control
+     console (2). Honours ?design=1a / ?design=2; choice persists locally. */
+  const DESIGNS = [
+    { id: "1a", label: "Dashboard" },
+    { id: "2", label: "Mission Control" },
+    { id: "3", label: "Apollo Houston" },
+  ];
+  const DESIGN_IDS = DESIGNS.map(function (d) { return d.id; });
+  const sw = document.getElementById("design-switcher");
+
+  function setDesign(id) {
+    qa(".design").forEach(function (el) {
+      el.classList.toggle("active", el.getAttribute("data-design") === id);
+    });
+    if (sw) {
+      qa("#design-switcher button").forEach(function (b) {
+        b.classList.toggle("active", b.getAttribute("data-design") === id);
+      });
+    }
+    try { localStorage.setItem("countdown-design", id); } catch (e) { /* private mode */ }
+  }
+
+  if (sw) {
+    DESIGNS.forEach(function (d) {
+      const b = document.createElement("button");
+      b.textContent = d.label;
+      b.setAttribute("data-design", d.id);
+      b.addEventListener("click", function () { setDesign(d.id); });
+      sw.appendChild(b);
+    });
+  }
+
+  let initial = new URLSearchParams(window.location.search).get("design");
+  if (!initial) { try { initial = localStorage.getItem("countdown-design"); } catch (e) { /* */ } }
+  if (DESIGN_IDS.indexOf(initial) === -1) initial = DESIGN_IDS[0];
+  setDesign(initial);
 })();
