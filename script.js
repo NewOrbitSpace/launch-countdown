@@ -95,18 +95,6 @@
         '<span class="m-date mono">' + fmtShort(ev) + '</span></div></div>' +
         (ev.last ? '' : '<div class="stem"></div>') + '</div>';
     },
-    apollo: function (ev, st) {
-      // Apollo MOCR console log: one green cell per milestone.
-      const status = ev.isLaunch
-        ? (st.done ? "LIFTOFF" : "GO")
-        : (st.done ? "COMPLETE" : st.delta);
-      const cls = "apx-cell" + (ev.isLaunch ? " launch" : "") + (st.done ? " done" : "");
-      return '<div class="' + cls + '">' +
-        '<div class="apx-cell-top"><span class="apx-cell-code">' + ev.code + '</span>' +
-        '<span class="apx-cell-status">' + status + '</span></div>' +
-        '<div class="apx-cell-name">' + ev.name + '</div>' +
-        '<div class="apx-cell-date">' + fmtShort(ev) + '</div></div>';
-    },
   };
 
   function buildMilestones() {
@@ -249,7 +237,6 @@
   const DESIGNS = [
     { id: "1a", label: "Dashboard" },
     { id: "2", label: "Mission Control" },
-    { id: "3", label: "Apollo Houston" },
   ];
   const DESIGN_IDS = DESIGNS.map(function (d) { return d.id; });
   const sw = document.getElementById("design-switcher");
